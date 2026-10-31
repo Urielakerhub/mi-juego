@@ -34,7 +34,7 @@ func attack() -> void:
         if l < 3.2 + e.radius and (to.x * f.x + to.z * f.z) / maxf(l, 0.001) > 0.2:
             hit = true
             var finisher := n == 4
-            var dmg := (15.0 if player.has_sword else 9.0) * (1.8 if finisher else 1.0)
+            var dmg: float = (15.0 if player.has_sword else 9.0) * (1.8 if finisher else 1.0)
             var kb := f * (14.0 if finisher else 3.0) + Vector3.UP * (7.0 if finisher else 1.5)
             e.take_damage(dmg, kb)
     if hit:
