@@ -46,12 +46,13 @@ jobs:
           mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable || true
       - name: Exportar
         working-directory: project
-        env:
-          GODOT_ANDROID_KEYSTORE_DEBUG_PATH: /tmp/debug.keystore
-          GODOT_ANDROID_KEYSTORE_DEBUG_USER: androiddebugkey
-          GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD: android
         run: |
           godot --headless --import || true
-          mkdir -p build/windows build/linux build/android
+          mkdir -p build/windows build/linux
           godot --headless --export-release "Windows Desktop" build/windows/ECLIPSE.exe
-          godot --headless --export-release
+          godot --headless --export-release "Linux" build/linux/ECLIPSE.x86_64
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eclipse-juego
+          path: project/build
