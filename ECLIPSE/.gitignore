@@ -1,0 +1,8 @@
+godot-cpp/
+.godot/
+.sconsign.dblite
+*.obj
+*.o
+*.lib
+*.exp
+project/build/
