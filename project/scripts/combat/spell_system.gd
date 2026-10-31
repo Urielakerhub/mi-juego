@@ -48,7 +48,7 @@ func _bolt() -> void:
             best_t = t
     if best != null:
         best.take_damage(22.0, d * 8.0 + Vector3.UP * 3.0)
-    var a := o + d * 0.6 + player.cam.global_transform.basis.x * 0.25 - Vector3(0.0, 0.2, 0.0)
+    var a: Vector3 = o + d * 0.6 + player.cam.global_transform.basis.x * 0.25 - Vector3(0.0, 0.2, 0.0)
     var b := o + d * best_t
     var bm := BoxMesh.new()
     bm.size = Vector3(0.08, 0.08, a.distance_to(b))
