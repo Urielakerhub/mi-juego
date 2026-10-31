@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-22.04
             platform: linux
           - os: windows-latest
             platform: windows
@@ -21,7 +21,7 @@ jobs:
           python-version: "3.11"
       - run: pip install scons
       - run: git clone --depth 1 --branch godot-4.3-stable https://github.com/godotengine/godot-cpp.git
-      - run: scons platform=${{ matrix.platform }} target=template_release arch=x86_64
+      - run: scons platform=${{ matrix.platform }} target=template_release arch=x86_64 use_static_cpp=yes
       - uses: actions/upload-artifact@v4
         with:
           name: bin-${{ matrix.platform }}
@@ -39,14 +39,11 @@ jobs:
           path: project/bin
           pattern: bin-*
           merge-multiple: true
-      - name: Preparar Godot
-        run: |
-          mkdir -p ~/.local/share/godot/export_templates ~/.config
-          mv /root/.config/godot ~/.config/godot || true
-          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable || true
       - name: Exportar
         working-directory: project
         run: |
+          export HOME=/root
+          ls /root/.local/share/godot/export_templates || true
           godot --headless --import || true
           mkdir -p build/windows build/linux
           godot --headless --export-release "Windows Desktop" build/windows/ECLIPSE.exe
